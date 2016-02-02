@@ -653,12 +653,13 @@ Task.prototype.isParent = function() {
 
 Task.prototype.getChildren = function() {
   var ret = [];
+  
   if (this.master) {
     var pos = this.getRow();
     for (var i = pos + 1; i < this.master.tasks.length; i++) {
       var ch = this.master.tasks[i];
-      if (ch.level == this.level + 1)
-        ret.push(ch);
+      if (ch.level == this.level + 1){
+        ret.push(ch);}
       else if (ch.level <= this.level) // exit loop if parent or brother
         break;
     }

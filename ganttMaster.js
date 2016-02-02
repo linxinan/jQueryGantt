@@ -74,8 +74,8 @@ GanttMaster.prototype.init = function (place) {
   self.splitter.firstBoxMinWidth=30;
 
   //prepend buttons
-  place.before($.JST.createFromTemplate({}, "GANTBUTTONS"));
-
+   place.before($.JST.createFromTemplate({}, "GANTBUTTONS"));
+  
 
   //bindings
   place.bind("refreshTasks.gantt",function () {
@@ -741,7 +741,6 @@ GanttMaster.prototype.indentCurrentTask=function(){
   var self=this;
   if (!self.canWrite|| !self.currentTask.canWrite)
     return;
-
   if (self.currentTask) {
     self.beginTransaction();
     self.currentTask.indent();
@@ -901,7 +900,6 @@ GanttMaster.prototype.endTransaction = function () {
 
   //[expand]
   this.editor.refreshExpandStatus(this.currentTask);
-
   return ret;
 };
 
@@ -993,9 +991,9 @@ GanttMaster.prototype.computeCriticalPath = function () {
   // do not consider grouping tasks
   var tasks = this.tasks.filter(function (t) {
     //return !t.isParent()
-    return (t.getRow()  > 0) && (!t.isParent() || (t.isParent() && !t.isDependent()));
-  });
-
+    //return (t.getRow()  > 0) && (!t.isParent() || (t.isParent() && !t.isDependent()));
+    return (t.getRow()  >= 0) ;
+  }); 
   // reset values
   for (var i = 0; i < tasks.length; i++) {
     var t = tasks[i];
@@ -1022,7 +1020,6 @@ GanttMaster.prototype.computeCriticalPath = function () {
     for (var i = 0; i < remaining.length; i++) {
       var task = remaining[i];
       var inferiorTasks = task.getInferiorTasks();
-
       if (containsAll(completed, inferiorTasks)) {
         // all dependencies calculated, critical cost is max dependency critical cost, plus our cost
         var critical = 0;
@@ -1062,7 +1059,6 @@ GanttMaster.prototype.computeCriticalPath = function () {
     var t = tasks[i];
     console.debug("Task ", t.name, t.duration, t.earlyStart, t.earlyFinish, t.latestStart, t.latestFinish, t.latestStart - t.earlyStart, t.earlyStart == t.latestStart)
   }*/
-
   return tasks;
 
 

@@ -130,7 +130,7 @@ GridEditor.prototype.refreshExpandStatus = function(task){
     task.rowElement.find(".exp-controller").addClass('expcoll exp');
   }
   else if(child.length == 0 && task.rowElement.has(".expcoll").length > 0)
-  {
+  { 
     task.rowElement.find(".exp-controller").removeClass('expcoll exp');
   }
 
