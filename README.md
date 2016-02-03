@@ -1,4 +1,4 @@
-jQueryGantt
+jQueryGantt for Kintone
 ===========
 editting
 
