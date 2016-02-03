@@ -1,4 +1,4 @@
 jQueryGantt for Kintone
 ===========
-editting
+Kintone上で使えるGantt　Chartを作成しています
 
