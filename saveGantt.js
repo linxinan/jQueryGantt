@@ -8,7 +8,6 @@ set_app_id function(app_id){
  },
 
 function compare(ori_task,task){
-
     var record={};
     // Gantt Row
     if (ori_task.gantt_row != task.gantt_row ) { 
@@ -47,22 +46,22 @@ function compare(ori_task,task){
         this.upload();
        }
     } 
+},
+
     /*
      We can upload only 100 records within one http request
      if records.length > 100 we have to sepeate it.
     */
-
-
-
-},
-
 function upload(){
-
-
+ var records_99 = $.extend(true,[],this.records);
+ kintone.api('/k/v1/records','PUT',{app:this.app_id,records:records_99}, 
+      function(resp){console.log(resp);this.update_tasks(records_99);}, 
+      function(resp){console.error(resp)});
  },
 
 function update_tasks(records){
-
+// id's loop and key's loop 
+// to update ge.ori_task
 
  }
 };
