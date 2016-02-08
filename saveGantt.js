@@ -2,6 +2,7 @@ var kintoneCommit={
 
 this.app_id="",
 this.records=[], // for uploading the diff to kintone
+this.task_lookup={};
 
 set_app_id function(app_id){
  this.app_id = app_id;
@@ -62,7 +63,17 @@ function upload(){
 function update_tasks(records){
 // id's loop and key's loop 
 // to update ge.ori_task
-
+ if(records.length == 0 ) return;
+ 
+ $.each(records,function(){
+   
+   if (this.hasOwnproperty("id")){
+     
+    $.each(this.record,function(key,value){}
+    
+   }
+ 
+  });
  }
 };
 
