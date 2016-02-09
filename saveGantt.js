@@ -66,11 +66,9 @@ function update_tasks(records){
  if(records.length == 0 ) return;
  
  $.each(records,function(){
-   
    if (this.hasOwnproperty("id")){
-     
-    $.each(this.record,function(key,value){}
-    
+     var this_id = this.id;
+    $.each(this.record,function(key,value){kintoneCommit.task_lookup(this_id)[key]=value;}
    }
  
   });
