@@ -603,6 +603,7 @@ Task.prototype.getRow = function() {
   ret = -1;
   if (this.master)
     ret = this.master.tasks.indexOf(this);
+    //ret = parseInt(this.gantt_row)-1;
   return ret;
 };
 
@@ -910,7 +911,6 @@ Task.prototype.moveUp = function() {
     if (this.master.tasks[newRow].level <= this.level)
       break;
   }
-
   //is a parent or a brother
   if (this.master.tasks[newRow].level == this.level) {
     ret = true;

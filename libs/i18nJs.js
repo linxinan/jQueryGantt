@@ -1,6 +1,3 @@
-
-
-
   function dateToRelative(localTime){
     var diff=new Date().getTime()-localTime;
     var ret="";
@@ -77,19 +74,19 @@
 
   //override date format i18n
   
-  Date.monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  Date.monthNames = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
   // Month abbreviations. Change this for local month names
-  Date.monthAbbreviations = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  Date.monthAbbreviations = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
   // Full day names. Change this for local month names
-  Date.dayNames =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  Date.dayNames =["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"];
   // Day abbreviations. Change this for local month names
-  Date.dayAbbreviations = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  Date.dayAbbreviations = ["日","月","火","水","木","金","土"];
   // Used for parsing ambiguous dates like 1/2/2000 - default to preferring 'American' format meaning Jan 2.
   // Set to false to prefer 'European' format meaning Feb 1
   Date.preferAmericanFormat = false;
 
   Date.firstDayOfWeek =1;
-  Date.defaultFormat = "dd/MM/yyyy";
+  Date.defaultFormat = "yyyy/MM/dd";
 
 
   Number.decimalSeparator = ".";
@@ -102,7 +99,7 @@
   var millisInWorkingDay =36000000;
   var workingDaysPerWeek =5;
 
-  function isHoliday(date) {
+function isHoliday(date) {
     var friIsHoly =false;
     var satIsHoly =true;
     var sunIsHoly =true;
@@ -112,7 +109,7 @@
       return val.substr(val.length - 2);
     };
 
-    var holidays = "#01_01#04_25#08_15#11_01#12_25#12_26#06_02#12_08#05_01#2010_04_05#2010_10_19#2010_05_15#2011_04_04#";
+    //var holidays = holidays; 
 
     var ymd = "#" + date.getFullYear() + "_" + pad(date.getMonth() + 1) + "_" + pad(date.getDate()) + "#";
     var md = "#" + pad(date.getMonth() + 1) + "_" + pad(date.getDate()) + "#";
@@ -120,8 +117,6 @@
 
     return  (day == 5 && friIsHoly) || (day == 6 && satIsHoly) || (day == 0 && sunIsHoly) || holidays.indexOf(ymd) > -1 || holidays.indexOf(md) > -1;
   }
-
-
   
   var i18n = {
     FORM_IS_CHANGED:"You have some unsaved data on the page!",

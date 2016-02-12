@@ -1,6 +1,6 @@
 var task_item={
-set_id:function(id){this.id=id;},
-set_name:function(name){this.name=name; },
+set_id:function(id){this.id=parseInt(id);},
+set_name:function(name){this.name=String(name); },
 set_code:function(code){this.code=code;},
 set_level:function(level){this.level=parseInt(level);},
 set_status:function(status_){this.status=status_;},
@@ -14,15 +14,22 @@ set_collapsed:function(collapsed){this.collapsed=collapsed},
 set_assigs:function(assigs){this.assigs=assigs;},
 set_hasChild:function(hasChild){this.hasChild=hasChild;},
 set_depends:function(depends){this.depends=String(depends);},
+set_progress:function(progress){this.progress=parseInt(progress);},
+set_gantt_row:function(gantt_row){this.gantt_row=parseInt(gantt_row)-1000*this.id;},
 };
 
 function new_item(){}
 new_item.prototype = task_item;
 
-function data_sortID(a,b)
-{
-if (parseInt(a.ID.value) > parseInt(b.ID.value)) {return 1} ;  if (parseInt(a.ID.value) <= parseInt(b.ID.value)) {return -1}
+function data_sort_gantt_row(a,b) {
+if (parseInt(a.gantt_row) > parseInt(b.gantt_row)) {return 1} ;  if (parseInt(a.gantt_row) <= parseInt(b.gantt_row)) {return -1};
 };
+
+function data_sort_id(a,b) {
+if (parseInt(a.id) > parseInt(b.id)) {return 1} ;  if (parseInt(a.id) <= parseInt(b.id)) {return -1};
+};
+
+
 function loadGanttFromServer(records, callback) {
 
   //this is a simulation: load data from the local storage if you have already played with the demo or a textarea with starting demo data
@@ -32,12 +39,6 @@ function loadGanttFromServer(records, callback) {
   canWriteOnParent:true,
   tasks:[]
   };
-  records=records.sort(data_sortID);
-  ID_row_index={};
-  jQuery.each(records,function(){
-    ID_row_index[this.ID.value]=records.indexOf(this)+1; 
-   }
-  );
   for(i=0;i<records.length;i++){
     new_task_item = new new_item() ;
     new_task_item.set_id(records[i].$id.value);
@@ -53,16 +54,10 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_canWrite(true);
     new_task_item.set_collapsed(false);
     new_task_item.set_level(records[i].Level.value);
-    if (records[i].Dep.value != "") {
-        var deps = records[i].Dep.value.split(",");
-        var dep_row=[];
-        for(j=0;j<deps.length;j++) {
-          if (ID_row_index.hasOwnProperty(deps[j])) 
-           dep_row.push(ID_row_index[deps[j]]);
-        }
-        new_task_item.set_depends(dep_row.join());
-    }
-    switch (records[i].Status.value){
+    new_task_item.set_depends(records[i].Dep.value);
+    new_task_item.set_progress(records[i].Progress.value);
+    new_task_item.set_gantt_row(records[i].Gantt_row.value);
+   switch (records[i].Status.value){
 
 	case "緊急":new_task_item.set_status("STATUS_EMER");break;
 	case "ペンディング":new_task_item.set_status("STATUS_SUSPENDED");break;
@@ -72,81 +67,46 @@ function loadGanttFromServer(records, callback) {
         default:new_task_item.set_status("STATUS_UNDEFINED");break;
 
     };
-    
     ret.tasks.push(new_task_item);
   }
-
+  ret.tasks.sort(data_sort_gantt_row);
   if (!ret || !ret.tasks || ret.tasks.length == 0){
     //ret = JSON.parse();
-
-    //actualiza data
-    var offset=new Date().getTime()-ret.tasks[0].start;
-    for (var i=0;i<ret.tasks.length;i++)
-      ret.tasks[i].start=ret.tasks[i].start+offset;
-
-
   }
   ge.loadProject(ret);
   ge.checkpoint(); //empty the undo stack
+  ge.ori={tasks:ret.tasks,
+          task_lookup:{},
+          set_task_lookup:function(lookup_table){
+            ge.ori.task_lookup=lookup_table},
+          update_ori:function(cache){
+            if(cache.length == 0 ) return;
+            for (j=0;j<cache.length;j++){
+              if (cache[j].hasOwnProperty("id")){
+                var this_id = parseInt(cache[j].id);
+                $.each(cache[j].record,function(key,value){ ge.ori.task_lookup[this_id][key]=value});
+              }
+             };
 
+          }
+
+
+  };
+     
 }
 
 
-function saveGanttOnServer() {
-  if(!ge.canWrite)
-    return;
 
 
-  //this is a simulation: save data to the local storage or to the textarea
-  saveInLocalStorage();
 
 
-  /*
-  var prj = ge.saveProject();
+function setKintoneDate(ganttDate){
 
-  delete prj.resources;
-  delete prj.roles;
+var someDate = new Date(ganttDate);
 
-  var prof = new Profiler("saveServerSide");
-  prof.reset();
+return String( someDate.getFullYear() + "-" + String(someDate.getMonth()+1) + "-" + someDate.getDate()  );
 
-  if (ge.deletedTaskIds.length>0) {
-    if (!confirm("TASK_THAT_WILL_BE_REMOVED\n"+ge.deletedTaskIds.length)) {
-      return;
-    }
-  }
-
-  $.ajax("ganttAjaxController.jsp", {
-    dataType:"json",
-    data: {CM:"SVPROJECT",prj:JSON.stringify(prj)},
-    type:"POST",
-
-    success: function(response) {
-      if (response.ok) {
-        prof.stop();
-        if (response.project) {
-          ge.loadProject(response.project); //must reload as "tmp_" ids are now the good ones
-        } else {
-          ge.reset();
-        }
-      } else {
-        var errMsg="Errors saving project\n";
-        if (response.message) {
-          errMsg=errMsg+response.message+"\n";
-        }
-
-        if (response.errorMessages.length) {
-          errMsg += response.errorMessages.join("\n");
-        }
-
-        alert(errMsg);
-      }
-    }
-
-  });
-  */
 }
-
 
 //-------------------------------------------  Create some demo data ------------------------------------------------------
 function setRoles() {
@@ -323,7 +283,8 @@ var div_gantbuttons = document.createElement("div");
 div_gantbuttons.className = "__template__";
 div_gantbuttons.setAttribute("type","GANTBUTTONS");
 //<div class="__template__" type="GANTBUTTONS">
-div_gantbuttons.innerHTML='<!-- <div class="ganttButtonBar "> <h1 style="float:left">Gantt Chart</h1> <div class="buttons"> <button onclick="$(\'#popup-body\').trigger(\'undo.gantt\');" class="button textual" title="undo"><span class="teamworkIcon">&#8634</span></button> <button onclick="$(\'#popup-body\').trigger(\'redo.gantt\');" class="button textual" title="redo"><span class="teamworkIcon">&#8635</span></button> <span class="ganttButtonSeparator"></span>  <button onclick="$(\'#popup-body\').trigger(\'addAboveCurrentTask.gantt\');" class="button textual" title="insert above"><span class="teamworkIcon">&#8625</span></button> <button onclick="$(\'#popup-body\').trigger(\'addBelowCurrentTask.gantt\');" class="button textual" title="insert below"><span class="teamworkIcon">&#8626</span></button> <span class="ganttButtonSeparator"></span><button onclick="$(\'#popup-body\').trigger(\'indentCurrentTask.gantt\');" class="button textual" title="indent task"><span class="teamworkIcon">&#8614</span></button> <button onclick="$(\'#popup-body\').trigger(\'outdentCurrentTask.gantt\');" class="button textual" title="unindent task"><span class="teamworkIcon">&#8612</span></button> <span class="ganttButtonSeparator"></span> <button onclick="$(\'#popup-body\').trigger(\'moveUpCurrentTask.gantt\');" class="button textual" title="move up"><span class="teamworkIcon">&#8657</span></button> <button onclick="$(\'#popup-body\').trigger(\'moveDownCurrentTask.gantt\');" class="button textual" title="move down"><span class="teamworkIcon">&#8659</span></button> <span class="ganttButtonSeparator"></span> <button onclick="$(\'#popup-body\').trigger(\'deleteCurrentTask.gantt\');" class="button textual" title="delete"><span class="teamworkIcon">&#x2716</span></button> <span class="ganttButtonSeparator"></span> <button onclick="$(\'#popup-body\').trigger(\'zoomMinus.gantt\');" class="button textual" title="zoom out"><span class="teamworkIcon">&#8854</span></button> <button onclick="$(\'#popup-body\').trigger(\'zoomPlus.gantt\');" class="button textual" title="zoom in"><span class="teamworkIcon">&#8853</span></button> <span class="ganttButtonSeparator"></span> <button onclick="ge.gantt.showCriticalPath=!ge.gantt.showCriticalPath; ge.redraw();" class="button textual" title="Critical Path"><span class="teamworkIcon">&#8623</span></button> <span class="ganttButtonSeparator"></span> &nbsp; &nbsp; &nbsp; &nbsp; <button onclick="saveGanttOnServer();" class="button first big" title="save">save</button><button onclick="closeModal();" class="button first big" title="close">close</button> </div></div> -->';
+div_gantbuttons.innerHTML='<!-- <div class="ganttButtonBar "> <h1 style="float:left">Gantt Chart</h1> <div class="buttons"> <button onclick="$(\'#popup-body\').trigger(\'undo.gantt\');" class="button textual" title="undo"><span class="teamworkIcon">&#8634</span></button> <button onclick="$(\'#popup-body\').trigger(\'redo.gantt\');" class="button textual" title="redo"><span class="teamworkIcon">&#8635</span></button> <span class="ganttButtonSeparator"></span>  <button onclick="$(\'#popup-body\').trigger(\'addAboveCurrentTask.gantt\');" class="button textual" title="insert above"><span class="teamworkIcon">&#8625</span></button> <button onclick="$(\'#popup-body\').trigger(\'addBelowCurrentTask.gantt\');" class="button textual" title="insert below"><span class="teamworkIcon">&#8626</span></button> <span class="ganttButtonSeparator"></span><button onclick="$(\'#popup-body\').trigger(\'indentCurrentTask.gantt\');" class="button textual" title="indent task"><span class="teamworkIcon">&#8614</span></button> <button onclick="$(\'#popup-body\').trigger(\'outdentCurrentTask.gantt\');" class="button textual" title="unindent task"><span class="teamworkIcon">&#8612</span></button> <span class="ganttButtonSeparator"></span> <button onclick="$(\'#popup-body\').trigger(\'moveUpCurrentTask.gantt\');" class="button textual" title="move up"><span class="teamworkIcon">&#8657</span></button> <button onclick="$(\'#popup-body\').trigger(\'moveDownCurrentTask.gantt\');" class="button textual" title="move down"><span class="teamworkIcon">&#8659</span></button> <span class="ganttButtonSeparator"></span> <button onclick="$(\'#popup-body\').trigger(\'zoomMinus.gantt\');" class="button textual" title="zoom out"><span class="teamworkIcon">&#8854</span></button> <button onclick="$(\'#popup-body\').trigger(\'zoomPlus.gantt\');" class="button textual" title="zoom in"><span class="teamworkIcon">&#8853</span></button> <span class="ganttButtonSeparator"></span> <button onclick="ge.gantt.showCriticalPath=!ge.gantt.showCriticalPath; ge.redraw();" class="button textual" title="Critical Path"><span class="teamworkIcon">&#8623</span></button> <span class="ganttButtonSeparator"></span> &nbsp; &nbsp; &nbsp; &nbsp; <input type="number" id="saveToken" style="width:4em"> <button onclick="saveGanttOnServer();" class="button first big" title="save">save</button><button onclick="closeModal();" class="button first big" title="close">close</button> <span id="saveStatus"></span> </div></div> -->';
+ 
 $("#gantEditorTemplates").append(div_gantbuttons);
 
 var div_taskedithead = document.createElement("div");
