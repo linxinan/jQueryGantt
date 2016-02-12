@@ -1,5 +1,5 @@
 /*
-Seperate the isHoliday() an independent file for 
+Seperate the var holidays an independent file for 
 easy configuring. 
 */
 
