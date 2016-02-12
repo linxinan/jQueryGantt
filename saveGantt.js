@@ -109,7 +109,7 @@ function saveGanttOnServer(){
    saveToken = String(Math.floor( Math.random() * 10 ));
    saveToken = saveToken + String(Math.floor( Math.random() * 10 ));
    saveToken = saveToken + String(Math.floor( Math.random() * 10 ));
-   saveMsg = "保存操作はKidsNetでは禁止されます。管理端末であれば、次の３桁の乱数[" 
+   saveMsg = "保存操作は管理者専用端末以外は禁止されます。管理端末であれば、次の３桁の乱数[" 
    saveMsg = saveMsg + saveToken + "]を入力し、Saveボタンを再度押してください。";
    alert(saveMsg);
    return;
