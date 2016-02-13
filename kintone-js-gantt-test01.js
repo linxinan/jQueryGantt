@@ -1,7 +1,4 @@
 ﻿/*
- * Gantt chart display of sample program
- * Copyright (c) 2015 Cybozu
- *
  * Licensed under the MIT License
  */
  
