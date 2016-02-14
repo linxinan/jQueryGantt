@@ -26,9 +26,10 @@ Roberto Bicchierai と Silvia Chelazzi作った<a href="https://github.com/robic
 * collapsible branches
 
 Kintoneに向け以下のところに改修を行いました：
-* 日付をローカルライズ
+* 日付の表示をローカルライズ
 * ステータスに緊急（Emergency）を追加
-* Kintoneにデータ保存
+* Kintoneからデータの読み込みと書き込み
 * ImageファイルのInline化
 
 詳細はWIKIに参考：https://github.com/tristan-lin/jQueryGantt/wiki
+
