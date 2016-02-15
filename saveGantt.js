@@ -1,3 +1,6 @@
+/*
+ * Licensed under the MIT License
+ */
 var kintoneCommit={
 cache:[],
 app_id:"",
