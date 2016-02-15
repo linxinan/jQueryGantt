@@ -9,7 +9,7 @@ Roberto Bicchierai と Silvia Chelazzi作った<a href="https://github.com/robic
 
 <img src="https://cloud.githubusercontent.com/assets/13725634/13010381/e6924bfc-d1e4-11e5-9393-b1334245cc1f.png" alt="Kintone2" border="0" />
 
-オリジナル版以下の機能を持っています:
+<a href="https://github.com/robicch/jQueryGantt/blob/master/README.md">オリジナル版</a>以下の機能を持っています:
 * jquery based
 * MIT licensed: you can reuse everywhere
 * json import-export
@@ -29,7 +29,7 @@ Kintoneに向け以下のところに改修を行いました：
 * 日付の表示をローカルライズ
 * ステータスに緊急（Emergency）を追加
 * Kintoneからデータの読み込みと書き込み
+* Kintoneのカテゴリー対応
 * ImageファイルのInline化
 
 詳細はWIKIに参考：https://github.com/tristan-lin/jQueryGantt/wiki
-
