@@ -76,14 +76,15 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_level(records[i].Level.value);
     new_task_item.set_depends(records[i].Dep.value);
     new_task_item.set_progress(records[i].Progress.value);
-    new_task_item.set_gantt_row(records[i].Gantt_row.value);
-   switch (records[i].Status.value){
+    if (records[i].Gantt_row.value != "")  new_task_item.set_gantt_row(records[i].Gantt_row.value);
+    else new_task_item.set_gantt_row(records[i].$id.value);
+    switch (records[i].Status.value){
 
 	case "緊急":new_task_item.set_status("STATUS_EMER");break;
 	case "ペンディング":new_task_item.set_status("STATUS_SUSPENDED");break;
 	case "進行中":new_task_item.set_status("STATUS_ACTIVE");break;
 	case "完了":new_task_item.set_status("STATUS_DONE");break;
-	case "失敗":new_task_item.set_status("STATUS_FAILED");break;
+	case "中止":new_task_item.set_status("STATUS_FAILED");break;
         default:new_task_item.set_status("STATUS_UNDEFINED");break;
 
     };
