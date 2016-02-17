@@ -51,6 +51,14 @@ compare: function(ori_task,task){
          record.To = {value : setKintoneDate(task.end)};
          temp.end = task.end;
        }
+ 
+     // Status 
+    if (ori_task.status != task.status) 
+       { 
+         record.Status = {value : task.status};
+         temp.status = task.status;
+       }
+ 
     if (Object.keys(record).length > 0) {
       this.records.push({id:ori_task.id,record:record});
       this.cache.push({id:ori_task.id,record:temp});
