@@ -60,7 +60,7 @@ function loadGanttFromServer(records, callback) {
   tasks:[]
   };
   for(i=0;i<records.length;i++){
-    if (records[i].$id.value == "" || records[i].To.value == "" || records[i].From.value ==""){continue;}
+    if (records[i].$id.value == null || records[i].To.value == null || records[i].From.value == null){continue;}
     new_task_item = new new_item() ;
     new_task_item.set_id(records[i].$id.value);
     new_task_item.set_name(records[i].To_Do.value);
