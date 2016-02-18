@@ -77,7 +77,7 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_depends(records[i].Dep.value);
     new_task_item.set_progress(records[i].Progress.value);
     if (records[i].Gantt_row.value != "")  new_task_item.set_gantt_row(records[i].Gantt_row.value);
-    else new_task_item.set_gantt_row(records[i].$id.value);
+    else new_task_item.set_gantt_row(parseInt(records[i].$id.value)*1001);
     switch (records[i].Status.value){
 
 	case "緊急":new_task_item.set_status("STATUS_EMER");break;
