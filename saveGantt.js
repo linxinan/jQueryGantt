@@ -17,7 +17,7 @@ compare: function(ori_task,task){
     temp={};
     // Gantt Row
     if (ori_task.gantt_row != task.gantt_row ) { 
-      record.Gantt_row = { value : 1000*task.id + task.gantt_row};
+      record.Gantt_row = { value : task.gantt_row};
       temp.gantt_row = task.gantt_row;
     }
     // Dep 
