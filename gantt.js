@@ -35,7 +35,7 @@ set_assigs:function(assigs){this.assigs=assigs;},
 set_hasChild:function(hasChild){this.hasChild=hasChild;},
 set_depends:function(depends){this.depends=String(depends);},
 set_progress:function(progress){this.progress=parseInt(progress);},
-set_gantt_row:function(gantt_row){this.gantt_row=parseInt(gantt_row)-1000*this.id;},
+set_gantt_row:function(gantt_row){this.gantt_row=parseInt(gantt_row);},
 };
 
 function new_item(){}
@@ -78,7 +78,7 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_depends(records[i].Dep.value);
     new_task_item.set_progress(records[i].Progress.value);
     if (records[i].Gantt_row.value != "")  new_task_item.set_gantt_row(records[i].Gantt_row.value);
-    else new_task_item.set_gantt_row(parseInt(records[i].$id.value)*1001);
+    else new_task_item.set_gantt_row(parseInt(records[i].$id.value));
     switch (records[i].Status.value){
 
 	case "緊急":new_task_item.set_status("STATUS_EMER");break;
