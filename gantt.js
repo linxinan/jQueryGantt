@@ -49,6 +49,28 @@ function data_sort_id(a,b) {
 if (parseInt(a.id) > parseInt(b.id)) {return 1} ;  if (parseInt(a.id) <= parseInt(b.id)) {return -1};
 };
 
+function status_k2g(flag, status){
+	if (flag) {
+		switch (status){
+			case "緊急":return "STATUS_EMER";break;
+			case "ペンディング":return "STATUS_SUSPENDED";break;
+			case "進行中":return "STATUS_ACTIVE";break;
+			case "完了":return "STATUS_DONE";break;
+			case "中止":return "STATUS_FAILED";break;
+        		default: return "STATUS_UNDEFINED";break;
+	 	};
+	}else {
+		switch (status){
+			case "STATUS_EMER":return "緊急";break;
+			case "STATUS_SUSPENDED":return "ペンディング";break;
+			case "STATUS_ACTIVE":return "進行中";break;
+			case "STATUS_DONE":return "完了";break;
+			case "STATUS_FAILED":return "中止";break;
+        		default: return "";break;
+		}
+	}	
+}
+
 
 function loadGanttFromServer(records, callback) {
 
@@ -79,16 +101,7 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_progress(records[i].Progress.value);
     if (records[i].Gantt_row.value != "")  new_task_item.set_gantt_row(records[i].Gantt_row.value);
     else new_task_item.set_gantt_row(parseInt(records[i].$id.value));
-    switch (records[i].Status.value){
-
-	case "緊急":new_task_item.set_status("STATUS_EMER");break;
-	case "ペンディング":new_task_item.set_status("STATUS_SUSPENDED");break;
-	case "進行中":new_task_item.set_status("STATUS_ACTIVE");break;
-	case "完了":new_task_item.set_status("STATUS_DONE");break;
-	case "中止":new_task_item.set_status("STATUS_FAILED");break;
-        default:new_task_item.set_status("STATUS_UNDEFINED");break;
-
-    };
+    new_task_item.set_status(status_k2g(true,records[i].Status.value));
     ret.tasks.push(new_task_item);
   }
   ret.tasks.sort(data_sort_gantt_row);
