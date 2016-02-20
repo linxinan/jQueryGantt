@@ -99,7 +99,7 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_level(records[i].Level.value);
     new_task_item.set_depends(records[i].Dep.value);
     new_task_item.set_progress(records[i].Progress.value);
-    if (records[i].Gantt_row.value != "")  new_task_item.set_gantt_row(records[i].Gantt_row.value);
+    if (records[i].Gantt_row.value != null)  new_task_item.set_gantt_row(records[i].Gantt_row.value);
     else new_task_item.set_gantt_row(parseInt(records[i].$id.value));
     new_task_item.set_status(status_k2g(true,records[i].Status.value));
     ret.tasks.push(new_task_item);
