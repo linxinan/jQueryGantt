@@ -55,7 +55,7 @@ compare: function(ori_task,task){
      // Status 
     if (ori_task.status != task.status) 
        { 
-         record.Status = {value : task.status};
+         record.Status = {value : status_k2g(false, task.status)};
          temp.status = task.status;
        }
  
