@@ -71,7 +71,11 @@ function status_k2g(flag, status){
 	}	
 }
 
-
+function id_row_lookup(tasks,item){
+ 
+ console.log(item, String(tasks.indexOf(item)));
+ return String(tasks.indexOf(tasks[parseInt(item)]));
+}
 function loadGanttFromServer(records, callback) {
 
   //this is a simulation: load data from the local storage if you have already played with the demo or a textarea with starting demo data
@@ -96,15 +100,34 @@ function loadGanttFromServer(records, callback) {
     new_task_item.set_hasChild(true);
     new_task_item.set_canWrite(true);
     new_task_item.set_collapsed(false);
-    new_task_item.set_level(records[i].Level.value);
     new_task_item.set_depends(records[i].Dep.value);
+    new_task_item.set_level(records[i].Level.value);
     new_task_item.set_progress(records[i].Progress.value);
     if (records[i].Gantt_row.value != null)  new_task_item.set_gantt_row(records[i].Gantt_row.value);
     else new_task_item.set_gantt_row(parseInt(records[i].$id.value));
     new_task_item.set_status(status_k2g(true,records[i].Status.value));
     ret.tasks.push(new_task_item);
-  }
+ }
   ret.tasks.sort(data_sort_gantt_row);
+
+ id_row_lookup={};
+ for(i=0;i<ret.tasks.length;i++){
+    id_row_lookup[ret.tasks[i].id]=i+1;
+ } 
+ for(i=0;i<ret.tasks.length;i++){
+    if (ret.tasks[i].depends == null || ret.tasks[i].depends == "") continue;
+    tmp =  ret.tasks[i].depends;
+    if (tmp.indexOf(",",0)<0) {
+      ret.tasks[i].depends=String(id_row_lookup[tmp]);
+      continue;
+    }
+    deps=tmp.split(",");
+    rows=[];
+    for(j=0;j<deps.length;j++){
+      rows.push(String(id_row_lookup[deps[j]]));
+    }
+   ret.tasks[i].depends=rows.join(",");
+ }
   if (!ret || !ret.tasks || ret.tasks.length == 0){
     //ret = JSON.parse();
   }
