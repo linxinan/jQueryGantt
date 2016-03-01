@@ -71,11 +71,6 @@ function status_k2g(flag, status){
 	}	
 }
 
-function id_row_lookup(tasks,item){
- 
- console.log(item, String(tasks.indexOf(item)));
- return String(tasks.indexOf(tasks[parseInt(item)]));
-}
 function loadGanttFromServer(records, callback) {
 
   //this is a simulation: load data from the local storage if you have already played with the demo or a textarea with starting demo data
