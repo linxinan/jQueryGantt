@@ -21,6 +21,7 @@ compare: function(ori_task,task){
       temp.gantt_row = task.gantt_row;
     }
     // Dep 
+     // need another function here to transfer row # to record id 
     if (ori_task.depends != task.depends) {
       record.Dep = { value : task.depends};
       temp.depends= task.depends;
