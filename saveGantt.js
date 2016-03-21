@@ -8,7 +8,7 @@ function row2id(tasks,dep){
  
  console.log(dep,tasks[dep+1]);
  
- if (tasks[dep+1].hasOwnProperty(id)){
+ if (tasks[dep+1].hasOwnProperty("id")){
   return tasks[dep+1].id;}
 } 
 
