@@ -3,13 +3,13 @@
  */
 
 function row2id(tasks,dep){
- dep=parseInt(dep);
- if (isNaN(dep) || dep+1 > tasks.length ) return null;
+ dep=parseInt(dep)-1;
+ if (isNaN(dep) || dep >= tasks.length ) return null;
  
- console.log(dep,tasks[dep+1]);
+ console.log(dep,tasks[dep]);
  
- if (tasks[dep+1].hasOwnProperty("id")){
-  return tasks[dep+1].id;}
+ if (tasks[dep].hasOwnProperty("id")){
+  return tasks[dep].id;}
 } 
 
 var kintoneCommit={
