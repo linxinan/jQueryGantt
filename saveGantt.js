@@ -1,6 +1,11 @@
 /*
  * Licensed under the MIT License
  */
+
+function row2id(tasks,dep){
+ return tasks[dep+1].id;
+} 
+
 var kintoneCommit={
 cache:[],
 app_id:"",
@@ -21,7 +26,7 @@ compare: function(ori_task,task){
       temp.gantt_row = task.gantt_row;
     }
     
-    console.log(ori_task.depends,task.depends);
+    console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
     // Dep 
      // need another function here to transfer row # to record id 
     if (ori_task.depends != task.depends) {
