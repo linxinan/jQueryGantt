@@ -20,6 +20,8 @@ compare: function(ori_task,task){
       record.Gantt_row = { value : task.gantt_row};
       temp.gantt_row = task.gantt_row;
     }
+    
+    console.log(ori_task.depends,task.depends);
     // Dep 
      // need another function here to transfer row # to record id 
     if (ori_task.depends != task.depends) {
