@@ -4,7 +4,7 @@
 
 function row2id(tasks,dep){
  if (dep == "") return "";
- else return tasks[dep+1].id;
+ else {console.log(tasks[dep+1]);return tasks[dep+1].id;}
 } 
 
 var kintoneCommit={
