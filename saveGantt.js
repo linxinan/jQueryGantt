@@ -11,7 +11,7 @@ function row2id(tasks,dep){
   ids=[];
   for(j=0;j<deps.length;j++){
       tmp=proc_dep(tasks,deps[j]);
-      if (tmp == null) reutrn null;
+      if (tmp == "invalid") reutrn "invalid";
       ids.push(String(tmp));
    }
   return ids.join(",");
@@ -20,10 +20,10 @@ function row2id(tasks,dep){
 
 function proc_dep(tasks,dep){
  dep=parseInt(dep)-1;
- if (isNaN(dep) || dep >= tasks.length ) return null;
+ if (isNaN(dep) || dep >= tasks.length ) return "invalid"l;
  if (tasks[dep].hasOwnProperty("id")){
   return tasks[dep].id;}
- return null
+ return "invalid";
 }
 var kintoneCommit={
 cache:[],
@@ -48,6 +48,7 @@ compare: function(ori_task,task){
     //console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
     // Dep 
      // need another function here to transfer row # to record id 
+    if (row2id(ge.tasks,task.depends)=="invalid") continue;
     if (row2id(ge.ori.tasks,ori_task.depends) != row2id(ge.tasks,task.depends)) {
       record.Dep = { value :  row2id(ge.tasks,task.depends)};
       temp.depends=  row2id(ge.tasks,task.depends);
