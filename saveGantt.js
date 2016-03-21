@@ -3,7 +3,8 @@
  */
 
 function row2id(tasks,dep){
- return tasks[dep+1].id;
+ if (dep == "") return "";
+ else return tasks[dep+1].id;
 } 
 
 var kintoneCommit={
