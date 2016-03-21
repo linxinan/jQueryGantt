@@ -20,7 +20,7 @@ function proc_dep(tasks,dep){
  dep=parseInt(dep)-1;
  if (isNaN(dep) || dep >= tasks.length ) return null;
  if (tasks[dep].hasOwnProperty("id")){
-  return tasks[dep].id);}
+  return tasks[dep].id;}
  return null
 }
 var kintoneCommit={
