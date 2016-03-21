@@ -11,7 +11,7 @@ function row2id(tasks,dep){
   ids=[];
   for(j=0;j<deps.length;j++){
       tmp=proc_dep(tasks,deps[j]);
-      if (tmp == "invalid") reutrn "invalid";
+      if (tmp == "invalid") return "invalid";
       ids.push(String(tmp));
    }
   return ids.join(",");
