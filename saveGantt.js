@@ -4,7 +4,7 @@
 
 function row2id(tasks,dep){
  dep=parseInt(dep);
- if (dep == NaN || dep+1 > tasks.length ) return null;
+ if (isNaN(dep) || dep+1 > tasks.length ) return null;
  
  console.log(dep,tasks[dep+1]);
  
