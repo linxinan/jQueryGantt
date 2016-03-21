@@ -6,7 +6,7 @@ function row2id(tasks,dep){
  dep=parseInt(dep);
  if (dep == NaN || dep+1 > tasks.length ) return null;
  if (tasks[dep+1].hasOwnProperty(id)){
-  console.log(tasks[dep+1]);
+  console.log(dep,tasks[dep+1]);
   return tasks[dep+1].id;}
 } 
 
