@@ -3,13 +3,27 @@
  */
 
 function row2id(tasks,dep){
- dep=parseInt(dep)-1;
- if (isNaN(dep) || dep >= tasks.length ) return null;
- //console.log(dep,tasks[dep]);
- if (tasks[dep].hasOwnProperty("id")){
-  return String(tasks[dep].id);}
+ if (dep.indexOf(",",0)<0) {
+      return String(proc_dep(tasks,dep));
+      continue;
+    }
+ else{
+  deps=dep.split(",");
+  ids=[];
+  for(j=0;j<deps.length;j++){
+      ids.push(String(proc_dep(tasks,deps[j])));
+   }
+  return rows.join(",");
+ }
 } 
 
+function proc_dep(tasks,dep){
+ dep=parseInt(dep)-1;
+ if (isNaN(dep) || dep >= tasks.length ) return null;
+ if (tasks[dep].hasOwnProperty("id")){
+  return tasks[dep].id);}
+ return null
+}
 var kintoneCommit={
 cache:[],
 app_id:"",
