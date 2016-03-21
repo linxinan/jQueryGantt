@@ -5,11 +5,9 @@
 function row2id(tasks,dep){
  dep=parseInt(dep)-1;
  if (isNaN(dep) || dep >= tasks.length ) return null;
- 
- console.log(dep,tasks[dep]);
- 
+ //console.log(dep,tasks[dep]);
  if (tasks[dep].hasOwnProperty("id")){
-  return tasks[dep].id;}
+  return String(tasks[dep].id);}
 } 
 
 var kintoneCommit={
@@ -32,12 +30,12 @@ compare: function(ori_task,task){
       temp.gantt_row = task.gantt_row;
     }
     
-    console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
+    //console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
     // Dep 
      // need another function here to transfer row # to record id 
-    if (ori_task.depends != task.depends) {
-      record.Dep = { value : task.depends};
-      temp.depends= task.depends;
+    if (row2id(ge.ori.tasks,ori_task.depends) != row2id(ge.tasks,task.depends)) {
+      record.Dep = { value :  row2id(ge.tasks,task.depends)};
+      temp.depends=  row2id(ge.tasks,task.depends);
     }
 
     // Level 
