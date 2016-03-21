@@ -10,9 +10,11 @@ function row2id(tasks,dep){
   deps=dep.split(",");
   ids=[];
   for(j=0;j<deps.length;j++){
-      ids.push(String(proc_dep(tasks,deps[j])));
+      tmp=proc_dep(tasks,deps[j]);
+      if (tmp == null) reutrn null;
+      ids.push(String(tmp));
    }
-  return rows.join(",");
+  return ids.join(",");
  }
 } 
 
