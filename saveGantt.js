@@ -5,7 +5,6 @@
 function row2id(tasks,dep){
  if (dep.indexOf(",",0)<0) {
       return String(proc_dep(tasks,dep));
-      continue;
     }
  else{
   deps=dep.split(",");
