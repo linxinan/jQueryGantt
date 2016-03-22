@@ -1,6 +1,30 @@
 /*
  * Licensed under the MIT License
  */
+
+function row2id(tasks,dep){
+ if (dep.indexOf(",",0)<0) {
+      return String(proc_dep(tasks,dep));
+    }
+ else{
+  deps=dep.split(",");
+  ids=[];
+  for(j=0;j<deps.length;j++){
+      tmp=proc_dep(tasks,deps[j]);
+      if (tmp == "invalid") return "invalid";
+      ids.push(String(tmp));
+   }
+  return ids.join(",");
+ }
+} 
+
+function proc_dep(tasks,dep){
+ dep=parseInt(dep)-1;
+ if (isNaN(dep) || dep >= tasks.length ) return "invalid"l;
+ if (tasks[dep].hasOwnProperty("id")){
+  return tasks[dep].id;}
+ return "invalid";
+}
 var kintoneCommit={
 cache:[],
 app_id:"",
@@ -20,11 +44,14 @@ compare: function(ori_task,task){
       record.Gantt_row = { value : task.gantt_row};
       temp.gantt_row = task.gantt_row;
     }
+    
+    //console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
     // Dep 
      // need another function here to transfer row # to record id 
-    if (ori_task.depends != task.depends) {
-      record.Dep = { value : task.depends};
-      temp.depends= task.depends;
+    if (row2id(ge.tasks,task.depends)=="invalid") continue;
+    if (row2id(ge.ori.tasks,ori_task.depends) != row2id(ge.tasks,task.depends)) {
+      record.Dep = { value :  row2id(ge.tasks,task.depends)};
+      temp.depends=  row2id(ge.tasks,task.depends);
     }
 
     // Level 
