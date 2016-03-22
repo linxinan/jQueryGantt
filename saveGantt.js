@@ -20,7 +20,7 @@ function row2id(tasks,dep){
 
 function proc_dep(tasks,dep){
  dep=parseInt(dep)-1;
- if (isNaN(dep) || dep >= tasks.length ) return "invalid"l;
+ if (isNaN(dep) || dep >= tasks.length ) return "invalid";
  if (tasks[dep].hasOwnProperty("id")){
   return tasks[dep].id;}
  return "invalid";
@@ -45,15 +45,13 @@ compare: function(ori_task,task){
       temp.gantt_row = task.gantt_row;
     }
     
-    //console.log(row2id(ge.ori.tasks,ori_task.depends),row2id(ge.tasks,task.depends));
     // Dep 
-     // need another function here to transfer row # to record id 
-    if (row2id(ge.tasks,task.depends)=="invalid") continue;
-    if (row2id(ge.ori.tasks,ori_task.depends) != row2id(ge.tasks,task.depends)) {
-      record.Dep = { value :  row2id(ge.tasks,task.depends)};
-      temp.depends=  row2id(ge.tasks,task.depends);
+    if (row2id(ge.tasks,task.depends)!="invalid") {
+       if (row2id(ge.ori.tasks,ori_task.depends) != row2id(ge.tasks,task.depends)) {
+         record.Dep = { value :  row2id(ge.tasks,task.depends)};
+         temp.depends=  row2id(ge.tasks,task.depends);
+       }
     }
-
     // Level 
     if (ori_task.level != task.level) {
       record.Level = {value : task.level};
